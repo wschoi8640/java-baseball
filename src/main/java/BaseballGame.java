@@ -9,39 +9,28 @@ import java.util.Scanner;
 public class BaseballGame {
 	
 		void init(){
-		
 	    
 	    int gameMode = 1;							
     	int comNum = ComNumReceiver.receive();				
-    	
+    	System.out.println(comNum);
+
 	    while(gameMode == 1) {
-	    	
 		    int myNum = MyNumReceiver.receive();				
 		    
 		    int [] comNumArr = Utils.numsToArr(comNum);		
 		    int [] myNumArr = Utils.numsToArr(myNum);
 		    int [] mergedArr = Utils.mergeArrs(comNumArr, myNumArr);
-		     
-		    int [] result = ResultProcessor.process(mergedArr);	
-		
-		    int strike = 
-		    /* ����� ��� */
-		    if(strike != 0) {
-		    	System.out.print(strike + "��Ʈ����ũ ");
-		    }
-		    if(ball != 0) {
-		    	System.out.print(ball + "��");
-		    }
-		    System.out.println();
 		    
-		    /* 3��Ʈ����ũ �� ���Ӹ�� ����*/
-		    if(strike == 3) {
-		    	System.out.println("3���� ���ڸ� ��� �����̽��ϴ�! ��������");
-		    	System.out.println("������ ���� �����Ϸ��� 1, �����Ϸ��� 2�� �Է��ϼ���.");
-		    	gameMode = sc.nextInt();
-		    	comNum = getComNum();		// ���ο� ������ ���ڸ���
+		    int [] middleResult = Processor.cntBallStrike(mergedArr);	
+		
+		    int strike = middleResult[0];
+		    int ball = middleResult[1];
+		    
+		    Processor.showResult(strike,ball);
+		    if(Processor.isThreeStrike(strike)) {
+			    gameMode = GameModeReceiver.receive();
+			    comNum = ComNumReceiver.receive();
 		    }
 	    }
-	    sc.close();
 	}
 }
